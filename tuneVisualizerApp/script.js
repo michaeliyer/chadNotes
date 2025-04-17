@@ -91,14 +91,6 @@ document.querySelectorAll("button[data-audio]").forEach((button) => {
         }
       });
 
-
-
-
-
-
-
-
-
       if (!audio._visualizerInitialized) {
         try {
           const source = audioContext.createMediaElementSource(audio);
@@ -115,14 +107,6 @@ document.querySelectorAll("button[data-audio]").forEach((button) => {
           console.error("Error initializing visualizer:", e);
         }
       }
-
-
-
-
-
-
-
-
 
       if (audio.paused) {
         try {
