@@ -153,12 +153,19 @@ document.querySelectorAll("button[data-audio]").forEach((button) => {
     }
   });
 
+  // audio.addEventListener("timeupdate", () => {
+  //   seekBar.value = audio.currentTime;
+  //   seekBar.max = audio.duration;
+  //   timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(
+  //     audio.duration
+  //   )}`;
+  // });
   audio.addEventListener("timeupdate", () => {
-    seekBar.value = audio.currentTime;
-    seekBar.max = audio.duration;
-    timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(
-      audio.duration
-    )}`;
+    if (!isNaN(audio.duration)) {
+      seekBar.value = audio.currentTime;
+      seekBar.max = audio.duration;
+      timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+    }
   });
 
   seekBar.addEventListener("input", () => {
@@ -180,8 +187,34 @@ document.querySelectorAll("button[data-audio]").forEach((button) => {
     volumeSlider.parentElement.appendChild(notice);
   }
 
+
+
+
+
+
+  // audio.addEventListener("ended", () => {
+  //   button.textContent = "▶️";
+  //   cancelAnimationFrame(canvas._animationFrame);
+  // });
   audio.addEventListener("ended", () => {
     button.textContent = "▶️";
     cancelAnimationFrame(canvas._animationFrame);
+  
+    // Auto-play next track if available
+    const currentIndex = parseInt(audioId.replace("audio", ""));
+    const nextId = `audio${currentIndex + 1}`;
+    const nextAudio = document.getElementById(nextId);
+    const nextButton = document.querySelector(`button[data-audio="${nextId}"]`);
+  
+    if (nextAudio && nextButton) {
+      console.log(`Auto-playing next track: ${nextId}`);
+  
+      // Small delay ensures DOM and audio are ready
+      setTimeout(() => {
+        nextButton.click();
+      }, 300);
+    }
   });
 });
+
+
